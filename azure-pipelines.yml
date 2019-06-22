@@ -14,7 +14,8 @@ jobs:
     container: 'danger-android'
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
-      - script: 'danger --dangerfile=.danger/danger-app --danger_id=2'
+        env:
+          DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
   - job: Build
     dependsOn: 
       - Danger_PR
@@ -59,3 +60,5 @@ jobs:
           artifactName: 'appBinary'
           targetPath: 'app/build'
       - script: 'danger --dangerfile=.danger/danger-app --danger_id=2'
+        env:
+          DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
