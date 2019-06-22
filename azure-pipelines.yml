@@ -43,9 +43,9 @@ jobs:
           publishJUnitResults: false
           tasks: ':app:test'
       - task: PublishPipelineArtifact@0
-          inputs:
-            artifactName: 'appBinary'
-            targetPath: 'app/build'
+        inputs:
+          artifactName: 'appBinary'
+          targetPath: 'app/build'
   - job: Danger_App
     displayName: Danger App
     dependsOn:
