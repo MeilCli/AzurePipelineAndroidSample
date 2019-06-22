@@ -19,17 +19,23 @@ jobs:
           tasks: ':app:lint'
           gradleWrapperFile: 'gradlew'
           gradleOptions: '-Xmx3072m'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.8'
           publishJUnitResults: false
       - task: Gradle@2
         inputs:
           tasks: ':app:ktlintCheck'
           gradleWrapperFile: 'gradlew'
           gradleOptions: '-Xmx3072m'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.8'
           publishJUnitResults: false
       - task: Gradle@2
         inputs:
           tasks: ':app:test'
           gradleWrapperFile: 'gradlew'
           gradleOptions: '-Xmx3072m'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.8'
           publishJUnitResults: false
       - script: 'danger --dangerfile=.danger/danger-app --danger_id=2'
