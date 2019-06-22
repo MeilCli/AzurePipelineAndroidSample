@@ -10,14 +10,12 @@ jobs:
   - job: TestBuild
     displayName: Test Build
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'win1803'
     container: 'danger-android'
-    variables:
-      JAVA_HOME: '/usr/local/lib/jvm/zulu-8-azure-amd64'
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
-      - script: 'chmod +x gradlew'
-      - script: './gradlew :app:lint'
-      - script: './gradlew :app:ktlintCheck'
-      - script: './gradlew :app:test'
+      #- script: 'chmod +x gradlew'
+      - script: 'gradlew :app:lint'
+      - script: 'gradlew :app:ktlintCheck'
+      - script: 'gradlew :app:test'
       - script: 'danger --dangerfile=.danger/danger-app --danger_id=2'
