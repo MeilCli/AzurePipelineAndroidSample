@@ -14,9 +14,6 @@ jobs:
     container: 'danger-android'
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
-      - task: JavaToolInstaller@0
-        inputs:
-          versionSpec: '8' 
       - task: Gradle@2
         inputs:
           tasks: ':app:lint'
@@ -24,6 +21,7 @@ jobs:
           gradleOptions: '-Xmx3072m'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: '1.8'
+          jdkArchitectureOption: 'x64'
           publishJUnitResults: false
       - task: Gradle@2
         inputs:
@@ -32,6 +30,7 @@ jobs:
           gradleOptions: '-Xmx3072m'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: '1.8'
+          jdkArchitectureOption: 'x64'
           publishJUnitResults: false
       - task: Gradle@2
         inputs:
@@ -40,5 +39,6 @@ jobs:
           gradleOptions: '-Xmx3072m'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: '1.8'
+          jdkArchitectureOption: 'x64'
           publishJUnitResults: false
       - script: 'danger --dangerfile=.danger/danger-app --danger_id=2'
