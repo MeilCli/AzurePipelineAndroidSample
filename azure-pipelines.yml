@@ -12,6 +12,8 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     container: 'danger-android'
+    variables:
+      JAVA_HOME: '/usr/lib/jvm/zulu-8-azure-amd64'
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
       - script: 'chmod +x gradlew'
