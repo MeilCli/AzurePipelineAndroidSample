@@ -1,0 +1,11 @@
+# message
+markdown(File.read('.danger/comment-general.txt'))
+if git.modified_files.include? "app/*"
+    markdown(File.read('.danger/comment-app.txt'))
+end
+
+# label
+pr_number = github.pr_json["number"]
+if git.modified_files.include? "app/*"
+    auto_label.set(pr_number, "feature: app", "ff8800")
+end
