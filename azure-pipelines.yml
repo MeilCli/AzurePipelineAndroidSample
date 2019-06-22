@@ -12,11 +12,11 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     container: 'danger-android'
+    variables:
+      JAVA_HOME: '/usr/local/lib/jvm/zulu-8-azure-amd64'
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
       - script: 'chmod +x gradlew'
-      - script: 'ls $(ANDROID_HOME)'
-      - script: 'ls $(JAVA_HOME)'
       - script: './gradlew :app:lint'
       - script: './gradlew :app:ktlintCheck'
       - script: './gradlew :app:test'
