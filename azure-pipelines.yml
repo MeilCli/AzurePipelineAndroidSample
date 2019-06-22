@@ -12,8 +12,6 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     container: 'danger-android'
-    variables: 
-      JAVA_HOME: ${{JAVA_HOME_8_X64}}
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
       - script: 'chmod +x gradlew'
