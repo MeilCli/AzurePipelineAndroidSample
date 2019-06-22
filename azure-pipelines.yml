@@ -1,0 +1,35 @@
+trigger:
+- master
+
+resources:
+  containers:
+    - container: 'danger-android'
+      image: 'meilcli/danger-android'
+      
+jobs:
+  - job: Danger_PR
+    displayName: Danger PR
+    pool:
+      vmImage: 'ubuntu-latest'
+    container: 'danger-android'
+    steps:
+      - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
+      - task: Gradle@2
+        inputs:
+          tasks: ':app:lint'
+          gradleWrapperFile: 'gradlew'
+          gradleOptions: '-Xmx3072m'
+          publishJUnitResults: false
+      - task: Gradle@2
+        inputs:
+          tasks: ':app:ktlintCheck'
+          gradleWrapperFile: 'gradlew'
+          gradleOptions: '-Xmx3072m'
+          publishJUnitResults: false
+      - task: Gradle@2
+        inputs:
+          tasks: ':app:test'
+          gradleWrapperFile: 'gradlew'
+          gradleOptions: '-Xmx3072m'
+          publishJUnitResults: false
+      - script: 'danger --dangerfile=.danger/danger-app --danger_id=2'
