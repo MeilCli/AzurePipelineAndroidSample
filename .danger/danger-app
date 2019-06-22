@@ -1,8 +1,10 @@
 github.dismiss_out_of_range_messages
 
 # ktlint
+puts Env['Build.SourcesDirectory']
+Dir.chdir(Env['Build.SourcesDirectory'])
 puts Dir.pwd
-checkstyle_format.base_path = '.*?AzurePipelineAndroidSample'
+checkstyle_format.base_path = Dir.pwd
 checkstyle_format.report 'app/build/reports/ktlint/ktlintMainSourceSetCheck.xml'
 checkstyle_format.report 'app/build/reports/ktlint/ktlintTestSourceSetCheck.xml'
 checkstyle_format.report 'app/build/reports/ktlint/ktlintAndroidTestSourceSetCheck.xml'
@@ -10,8 +12,8 @@ checkstyle_format.report 'app/build/reports/ktlint/ktlintAndroidTestSourceSetChe
 # Android lint
 android_lint.skip_gradle_task = true
 android_lint.report_file = "app/build/reports/lint-results.xml"
-android_lint.lint
+android_lint.lint()
 
 # junit
 junit.parse_files(Dir.glob("app/build/test-results/test*/TEST-*.xml"))
-junit.report
+junit.report(inline_mode: true)
