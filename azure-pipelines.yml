@@ -17,6 +17,7 @@ jobs:
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
       - script: 'echo ##vso[task.setvariable variable=JAVA_HOME]$(JAVA_HOME_8_X64)/bin'
+      - script: 'echo $(JAVA_HOME)'
       - task: Gradle@2
         inputs:
           workingDirectory: ''
