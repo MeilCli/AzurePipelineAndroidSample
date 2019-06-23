@@ -59,8 +59,8 @@ jobs:
         inputs:
           artifactName: 'appBinary'
           targetPath: 'app/build'
-      - script: 'pwd'
-      - script: 'echo $(Agent.WorkFolder)'
+      - script: 'pwd -P'
+      - script: 'pwd -L'
       - script: 'cd $(Agent.WorkFolder) & danger --dangerfile=.danger/danger-app --danger_id=2 pr https://github.com/MeilCli/AzurePipelineAndroidSample/pull/1'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
