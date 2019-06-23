@@ -12,17 +12,16 @@ jobs:
     pool:
       vmImage: 'ubuntu-16.04'
     container: 'danger-android'
-    variables:
-      JAVA_HOME: '/usr/lib/jvm/zulu-8-azure-amd64'
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
-      - script: 'ls /usr'
-      - script: 'ls /usr/bin'
-      - script: 'ls /usr/lib'
-      - script: 'ls /usr/share'
-      - script: 'echo $(JAVA_HOME)'
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-16.04'
+    variables:
+      JAVA_HOME: '/usr/lib/jvm/zulu-8-azure-amd64'
+    steps:
       - task: Gradle@2
         inputs:
           workingDirectory: ''
@@ -44,7 +43,24 @@ jobs:
           gradleOptions: '-Xmx3072m'
           publishJUnitResults: false
           tasks: ':app:test'
-      - script: 'danger --dangerfile=.danger/danger-app --danger_id=2 pr https://github.com/MeilCli/AzurePipelineAndroidSample/pull/1'
+      - task: PublishPipelineArtifact@0
         condition: always()
+        inputs:
+          artifactName: 'appBinary'
+          targetPath: 'app/build'
+  - job: Danger_App
+    displayName: Danger App
+    dependsOn:
+      - Build
+    condition: always()
+    pool:
+      vmImage: 'ubuntu-16.04'
+    container: 'danger-android'
+    steps:
+      - task: DownloadPipelineArtifact@0
+        inputs:
+          artifactName: 'appBinary'
+          targetPath: 'app/build'
+      - script: 'danger --dangerfile=.danger/danger-app --danger_id=2 pr https://github.com/MeilCli/AzurePipelineAndroidSample/pull/1'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
