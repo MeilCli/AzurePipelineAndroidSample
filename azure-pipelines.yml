@@ -10,15 +10,17 @@ jobs:
   - job: Danger_PR
     displayName: Danger PR
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-16.04'
     container: 'danger-android'
     steps:
-      - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
+      - script: 'danger --dangerfile=.danger/danger-pr --danger_id=danger-pr'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
   - job: Build
     pool:
-      vmImage: 'macOS-10.13'
+      vmImage: 'ubuntu-16.04'
+    variables:
+      JAVA_HOME: '/usr/lib/jvm/zulu-8-azure-amd64'
     steps:
       - task: Gradle@2
         inputs:
@@ -52,13 +54,13 @@ jobs:
       - Build
     condition: always()
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-16.04'
     container: 'danger-android'
     steps:
       - task: DownloadPipelineArtifact@0
         inputs:
           artifactName: 'appBinary'
           targetPath: 'app/build'
-      - script: 'danger --dangerfile=.danger/danger-app --danger_id=2'
+      - script: 'danger --dangerfile=.danger/danger-app --danger_id=danger-app'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
