@@ -13,13 +13,10 @@ jobs:
       vmImage: 'ubuntu-latest'
     container: 'danger-android'
     steps:
+      - script: 'printenv'
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
-  - job: Build
-    pool:
-      vmImage: 'macOS-10.13'
-    steps:
       - task: Gradle@2
         inputs:
           workingDirectory: ''
@@ -41,26 +38,7 @@ jobs:
           gradleOptions: '-Xmx3072m'
           publishJUnitResults: false
           tasks: ':app:test'
-      - task: PublishPipelineArtifact@0
+      - script: 'danger --dangerfile=.danger/danger-app --danger_id=2 pr https://github.com/MeilCli/AzurePipelineAndroidSample/pull/1'
         condition: always()
-        inputs:
-          artifactName: 'appBinary'
-          targetPath: 'app/build'
-  - job: Danger_App
-    displayName: Danger App
-    dependsOn:
-      - Build
-    condition: always()
-    pool:
-      vmImage: 'ubuntu-latest'
-    container: 'danger-android'
-    steps:
-      - task: DownloadPipelineArtifact@0
-        inputs:
-          artifactName: 'appBinary'
-          targetPath: 'app/build'
-      - script: 'pwd -P'
-      - script: 'pwd -L'
-      - script: 'cd $(Agent.WorkFolder) & danger --dangerfile=.danger/danger-app --danger_id=2 pr https://github.com/MeilCli/AzurePipelineAndroidSample/pull/1'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
