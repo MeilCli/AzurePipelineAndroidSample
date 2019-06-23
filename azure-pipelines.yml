@@ -13,11 +13,12 @@ jobs:
       vmImage: 'ubuntu-16.04'
     container: 'danger-android'
     variables:
-      JAVA_HOME: '/usr/lib/jvm/zulu-8-azure-amd64/bin'
+      JAVA_HOME: '/usr/lib/jvm/zulu-8-azure-amd64'
     steps:
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
+      - script: 'java -version'
       - script: 'echo $(JAVA_HOME)'
       - task: Gradle@2
         inputs:
