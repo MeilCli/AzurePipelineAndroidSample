@@ -12,12 +12,15 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     container: 'danger-android'
+    variables:
+      JAVA_HOME: $(JAVA_HOME_8_X64)
     steps:
-      - script: 'printenv'
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=1'
         env:
           DANGER_GITHUB_API_TOKEN: $(DANGER_GITHUB_API_TOKEN)
       - task: Gradle@2
+        env:
+          JAVA_HOME: $(JAVA_HOME_8_X64)
         inputs:
           workingDirectory: ''
           gradleWrapperFile: 'gradlew'
