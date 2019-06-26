@@ -16,7 +16,7 @@ jobs:
         inputs:
           versionSpec: '>= 2.6'
           addToPath: true
-      - script: 'CALL gem install bundler'
+      - script: 'gem install bundler'
       - script: 'bundle install'
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=danger-pr'
         env:
