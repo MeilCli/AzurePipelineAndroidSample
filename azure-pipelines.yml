@@ -1,11 +1,11 @@
 trigger:
-- master
+  - master
 
 resources:
   containers:
     - container: 'danger-android'
       image: 'meilcli/danger-android'
-      
+
 jobs:
   - job: Danger_PR
     displayName: Danger PR
@@ -13,9 +13,9 @@ jobs:
       vmImage: 'ubuntu-16.04'
     steps:
       - task: UseRubyVersion@0
-          inputs:
-            versionSpec: '>= 2.6'
-            addToPath: true
+        inputs:
+          versionSpec: '>= 2.6'
+          addToPath: true
       - script: 'CALL gem install bundler'
       - script: 'bundle install'
       - script: 'danger --dangerfile=.danger/danger-pr --danger_id=danger-pr'
